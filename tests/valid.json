@@ -1,0 +1,26 @@
+{
+    "name": "Demo 1",
+    "description": "This is a demo file. qsfqdfqfdqsfqsfqs",
+    "metadata" : {
+	"name": "name",
+	"email": "email",
+	"date":"date"
+    },
+    "commands" : [
+	{
+	    "description": "ls without shell",
+	    "command": "ls",
+	    "options": ["-ali"]
+	},
+	{
+	    "description": "ls with shell",
+	    "command": "ls -ali",
+	    "shell": true
+	},
+	{
+	    "description": "sleep",
+	    "command": "sleep 10",
+	    "shell": true
+	}
+    ]
+}

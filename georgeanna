@@ -1,0 +1,80 @@
+
+#!/bin/bash
+#
+# @(#)georgeanna.sh
+#
+# Canal Plus
+# 1 Place Spectacle
+# 92130 Issy Les Moulineaux, France
+#
+
+#
+# (C) Julian EASTERLY - Thu May 31 2018
+#
+
+#@TODO add a shell option
+#@TODO add a validator option
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+commands=("validate" "help" "run")
+
+python -c 'import termcolor' &> /dev/null
+result=$?
+
+if [ ${result} -ne 0 ]
+then
+    echo "Missing dependency : termcolor"
+    echo "run a $> pip install termcolor"
+    exit 1
+fi
+
+python -c 'import jsonschema' &> /dev/null
+result=$?
+
+if [ ${result} -ne 0 ]
+then
+    echo "Missing dependency : jsonschema"
+    echo "run a $> pip install jsonschema"
+    exit 1
+fi
+
+
+
+if [ ${#} -eq 0 ] || [ ${1} == 'help' ]
+then
+    cat ${DIR}/misc/help.txt
+    exit 1
+fi
+
+if [ ${#} -gt 0 ]
+then
+    #check if playbook file exists
+
+    if [ "${2}" != "" ] && [ -f ${2} ]
+    then
+	filename=${2}
+    else
+	if [ -f playbook.json ]
+	then
+	    filename="playbook.json"
+	else
+	    echo "Georgeanna could find a playbook.json file in the current folder."
+	    exit 1
+	fi
+    fi
+
+
+    case "${1}" in
+	"validate")
+	    python -m ${DIR}/validate ${filename}
+	    ;;
+	"run" )
+	    python -m ${DIR}/run ${filename}
+	    ;;
+	*)
+	    cat ${DIR}/misc/help.txt
+	    exit 1
+    esac
+fi
+
+
